@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm main.ts",
+    "fmt": "deno fmt --ignore=node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/stortup/backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/stortup/backend/issues"
+  },
+  "homepage": "https://gitlab.com/stortup/backend#readme",
+  "devDependencies": {
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "fastify": "^3.22.0",
+    "mongodb": "^4.1.3"
+  }
+}
