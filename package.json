@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --loader ts-node/esm main.ts",
-    "fmt": "deno fmt --ignore=node_modules"
+    "start": "node --loader ts-node/esm main.ts"
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,9 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
+    "fastest-validator": "^1.11.1",
     "fastify": "^3.22.0",
+    "fastify-fv": "^0.2.0",
     "mongodb": "^4.1.3"
   }
 }
