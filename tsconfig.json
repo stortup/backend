@@ -2,6 +2,11 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "ES2020",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true
   }
 }

@@ -7,7 +7,6 @@ export interface User {
   is_user: true;
   is_mentor: boolean;
   is_admin: boolean;
-  is_verified: boolean;
   name: string | null;
   email: string | null;
   email_verified: boolean;
@@ -27,6 +26,8 @@ export const usersCollection = client.db("stortup").collection<User | Mentor>(
 );
 
 await usersCollection.createIndexes([
-  { key: { is_user: 1, is_mentor: 1 } },
+  { key: { phone: 1 }, unique: true },
+  { key: { is_user: 1 } },
+  { key: { is_mentor: 1 } },
   { key: { is_available: 1 }, sparse: true },
 ]);
