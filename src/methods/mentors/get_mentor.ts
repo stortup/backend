@@ -3,30 +3,16 @@ import { sweet } from "sweet-fastify";
 import { toView } from "../../../utils.js";
 import { usersCollection } from "../../collections/users.js";
 
-export interface ResultMentor {
-  id: ObjectId;
-  name: string;
-  resume: string;
-  avatar_url: string;
-  bio: string;
-  times: ResultTime[];
-  hourly_cost: number;
-}
-
-export interface ResultTime {
-  id: ObjectId;
-  start_date: string;
-  reserved: boolean;
-}
-
-export const getAllMentors = sweet({
+export const getMentor = sweet({
   method: "GET",
-  url: "/get_all_mentors",
-  async handler(): Promise<ResultMentor[]> {
-    const page = 0;
-    const result = await usersCollection
+  url: "/get_mentor",
+  params: {
+    mentor_id: { type: "string" },
+  },
+  async handler({ mentor_id }) {
+    const result: any = await usersCollection
       .aggregate([
-        { $match: { is_mentor: true } },
+        { $match: { _id: new ObjectId(mentor_id), is_mentor: true } },
         {
           $lookup: {
             from: "times",
@@ -48,11 +34,10 @@ export const getAllMentors = sweet({
           },
         },
       ])
-      .limit(20)
-      .skip(page * 20)
-      .toArray() as any[];
+      .toArray();
 
-    return result.map(mentorToView);
+    if (!result[0]) return null;
+    return mentorToView(result[0]);
   },
 });
 

@@ -27,6 +27,7 @@
   "dependencies": {
     "fastest-validator": "^1.11.1",
     "fastify": "^3.22.0",
+    "fastify-cors": "^6.0.2",
     "fastify-error": "^0.3.1",
     "fastify-fv": "^0.2.0",
     "mongodb": "^4.1.3",

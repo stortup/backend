@@ -5,7 +5,7 @@ export interface Time {
   _id: ObjectId;
   start_date: number; // timestamp is seconds
   end_date: number; // timestamp is seconds
-  is_free: boolean;
+  reserved: boolean;
   meet_id?: ObjectId;
 }
 
@@ -23,21 +23,18 @@ const timesCollection = client.db("mentor-times").collection<
 export class MentorTimes {
   _id: ObjectId; // equals to mentor_id
   times: Time[] = [];
-  new: boolean;
 
   constructor(
     times: MentorTimesCollection,
-    opts: { new: boolean },
   ) {
     this._id = times._id;
     this.times = times.times;
-    this.new, opts.new;
   }
 
   static async of(userId: ObjectId): Promise<MentorTimes> {
     const hit = await timesCollection.findOne({ _id: userId });
-    if (hit) return new MentorTimes(hit, { new: false });
-    return new MentorTimes({ _id: userId, times: [] }, { new: true });
+    if (hit) return new MentorTimes(hit);
+    return new MentorTimes({ _id: userId, times: [] });
   }
 
   addTime(start_date: number, end_date: number): Time {
@@ -58,7 +55,7 @@ export class MentorTimes {
       _id: new ObjectId(),
       start_date,
       end_date,
-      is_free: true,
+      reserved: false,
     };
 
     this.times.push(time);
@@ -72,15 +69,10 @@ export class MentorTimes {
   }
 
   async save() {
-    if (this.new) {
-      await timesCollection.insertOne({ _id: this._id, times: this.times });
-      this.new = false;
-    } else {
-      await timesCollection.replaceOne({ _id: this._id }, {
-        _id: this._id,
-        times: this.times,
-      });
-    }
+    await timesCollection.replaceOne({ _id: this._id }, {
+      _id: this._id,
+      times: this.times,
+    }, { upsert: true });
   }
 }
 

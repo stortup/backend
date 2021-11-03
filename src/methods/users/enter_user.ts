@@ -1,6 +1,6 @@
 import { sweet } from "sweet-fastify";
 import createError from "fastify-error";
-import { otpCollection } from "../../collections/otp";
+import { otpCollection } from "../../collections/otp.js";
 import { User, usersCollection } from "../../collections/users.js";
 import { TokenDocument, tokensCollection } from "../../collections/tokens.js";
 import { ObjectId } from "mongodb";
@@ -46,7 +46,7 @@ export const enterUser = sweet({
       // login
       const token: TokenDocument = {
         _id: new ObjectId(),
-        user: user._id,
+        user_id: user._id,
       };
 
       await tokensCollection.insertOne(token);
@@ -58,7 +58,6 @@ export const enterUser = sweet({
     const newUser: User = {
       _id: new ObjectId(),
       phone: params.phone,
-      is_user: true,
       is_mentor: false,
       is_admin: false,
       name: null,
@@ -70,7 +69,7 @@ export const enterUser = sweet({
 
     const token: TokenDocument = {
       _id: new ObjectId(),
-      user: newUser._id,
+      user_id: newUser._id,
     };
 
     await tokensCollection.insertOne(token);

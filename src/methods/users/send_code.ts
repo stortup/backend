@@ -1,5 +1,4 @@
 import { sweet } from "sweet-fastify";
-import createError from "fastify-error";
 import { otpCollection } from "../../collections/otp.js";
 
 interface Params {
@@ -8,11 +7,11 @@ interface Params {
 
 const TWO_MINUTES = 1000 * 60 * 2;
 
-const CODE_ALREADY_SENT = createError(
-  "CODE_ALREADY_SENT",
-  "Code Already Send",
-  400,
-);
+// const CODE_ALREADY_SENT = createError(
+//   "CODE_ALREADY_SENT",
+//   "Code Already Send",
+//   400,
+// );
 
 export const sendCode = sweet({
   method: "POST",
@@ -21,16 +20,17 @@ export const sendCode = sweet({
     phone: "string",
   },
   async handler(params: Params) {
-    const otp = await otpCollection.findOne({ _id: params.phone });
+    // const otp = await otpCollection.findOne({ _id: params.phone });
 
-    if (otp) {
-      if (!isExpired(otp.expire_at)) {
-        // OTP is valid
-        throw new CODE_ALREADY_SENT();
-      }
-    }
+    // if (otp) {
+    //   if (!isExpired(otp.expire_at)) {
+    //     // OTP is valid
+    //     throw new CODE_ALREADY_SENT();
+    //   }
+    // }
 
     const code = generateOtpCode();
+    console.log(code);
     const expire_at = new Date(Date.now() + TWO_MINUTES);
 
     await otpCollection.replaceOne(
@@ -45,9 +45,9 @@ export const sendCode = sweet({
   },
 });
 
-function isExpired(date: Date) {
-  return date.getTime() < Date.now();
-}
+// function isExpired(date: Date) {
+//   return date.getTime() < Date.now();
+// }
 
 function generateOtpCode() {
   return (Math.floor(Math.random() * 90000) + 10000).toString();

@@ -1,10 +1,9 @@
 import { ObjectId } from "mongodb";
-import { client } from "../../mongo";
+import { client } from "../../mongo.js";
 
 export interface User {
   _id: ObjectId;
-  phone: string;
-  is_user: true;
+  phone?: string;
   is_mentor: boolean;
   is_admin: boolean;
   name: string | null;
@@ -14,7 +13,6 @@ export interface User {
 
 export interface Mentor extends User {
   is_mentor: true;
-  is_available: boolean;
   resume: string;
   bio: string;
   avatar_url: string | null;
@@ -26,7 +24,8 @@ export const usersCollection = client.db("stortup").collection<User | Mentor>(
 );
 
 await usersCollection.createIndexes([
-  { key: { phone: 1 }, unique: true },
+  { key: { phone: 1 }, unique: true, sparse: true },
+  { key: { email: 1 }, unique: true, sparse: true },
   { key: { is_user: 1 } },
   { key: { is_mentor: 1 } },
   { key: { is_available: 1 }, sparse: true },
