@@ -2,6 +2,7 @@ import { sweet } from "sweet-fastify";
 import createError from "fastify-error";
 import { usersAuth } from "../../authentications/users.js";
 import { usersCollection } from "../../collections/users.js";
+import { toView } from "../../../utils.js";
 
 interface Params {
   phone: string;
@@ -19,6 +20,6 @@ export const getMe = sweet({
       throw USER_NOT_FOUND();
     }
 
-    return user;
+    return toView(user);
   },
 });
