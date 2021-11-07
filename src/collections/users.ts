@@ -20,6 +20,7 @@ export interface Mentor extends UserBase {
   resume: string;
   bio: string;
   avatar_url: string | null;
+  bank_card: string | null;
   hourly_cost: number;
 }
 

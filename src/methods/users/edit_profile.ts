@@ -6,6 +6,9 @@ interface Params {
   name?: string;
   phone?: string;
   resume?: string;
+  bio?: string;
+  hourly_cost?: string;
+  band_card?: string;
 }
 
 export const editProfile = sweet({
@@ -16,12 +19,17 @@ export const editProfile = sweet({
     name: "string|optional",
     phone: "email|optional",
     resume: "string|optional",
+    hourly_cost: "number|optional",
+    band_card: "string|optional",
   },
   async handler(params: Params, { user_id }) {
     const user = await usersCollection.findOne({ _id: user_id });
 
     if (!user?.is_mentor) {
       delete params.resume;
+      delete params.bio;
+      delete params.hourly_cost;
+      delete params.band_card;
     }
 
     await usersCollection.updateOne(
