@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { client } from "../../mongo.js";
 
-export interface User {
+interface UserBase {
   _id: ObjectId;
   phone?: string;
   is_mentor: boolean;
@@ -11,7 +11,11 @@ export interface User {
   email_verified: boolean;
 }
 
-export interface Mentor extends User {
+export interface User extends UserBase {
+  is_mentor: false;
+}
+
+export interface Mentor extends UserBase {
   is_mentor: true;
   resume: string;
   bio: string;

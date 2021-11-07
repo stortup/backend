@@ -1,14 +1,14 @@
 import { ObjectId } from "bson";
-import { client } from "../../mongo";
+import { client } from "../../mongo.js";
 
 export interface Meet {
   _id: ObjectId;
-  creator: ObjectId;
-  mentor: ObjectId;
+  user_id: ObjectId;
+  mentor_id: ObjectId;
   price_paid: number;
   // TODO: transaction Id
-  start_date: Date;
-  end_date: Date;
+  date: Date;
+  duration: number;
 }
 
 export const meetsCollection = client.db("stortup").collection<Meet>(
@@ -16,7 +16,7 @@ export const meetsCollection = client.db("stortup").collection<Meet>(
 );
 
 await meetsCollection.createIndexes([
-  { key: { creator: 1 } },
-  { key: { mentor: 1 } },
-  { key: { start_date: 1 } },
+  { key: { user_id: 1 } },
+  { key: { mentor_id: 1 } },
+  { key: { date: 1 } },
 ]);

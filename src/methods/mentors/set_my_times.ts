@@ -21,10 +21,10 @@ export const setMyTimes = sweet({
   params: {
     times: {
       type: "array",
-      values: {
+      items: {
         type: "object",
         props: {
-          date: "date",
+          date: "date|convert",
           duration: "number",
         },
       },

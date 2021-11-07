@@ -4,6 +4,7 @@ import { usersCollection } from "../../collections/users.js";
 
 interface Params {
   name?: string;
+  phone?: string;
   resume?: string;
 }
 
@@ -13,6 +14,7 @@ export const editProfile = sweet({
   auth: usersAuth,
   params: {
     name: "string|optional",
+    phone: "email|optional",
     resume: "string|optional",
   },
   async handler(params: Params, { user_id }) {
