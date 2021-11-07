@@ -3,7 +3,8 @@ import { usersAuth } from "../../authentications/users.js";
 import { usersCollection } from "../../collections/users.js";
 
 interface Params {
-  phone: string;
+  name?: string;
+  resume?: string;
 }
 
 export const editProfile = sweet({
@@ -12,8 +13,15 @@ export const editProfile = sweet({
   auth: usersAuth,
   params: {
     name: "string|optional",
+    resume: "string|optional",
   },
   async handler(params: Params, { user_id }) {
+    const user = await usersCollection.findOne({ _id: user_id });
+
+    if (!user?.is_mentor) {
+      delete params.resume;
+    }
+
     await usersCollection.updateOne(
       { _id: user_id },
       {

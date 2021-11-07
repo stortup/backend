@@ -1,6 +1,5 @@
 import createError from "fastify-error";
 import { sweet } from "sweet-fastify";
-import { toView } from "../../../utils.js";
 import { usersAuth } from "../../authentications/users.js";
 import { timesCollection } from "../../collections/times.js";
 import { usersCollection } from "../../collections/users.js";
@@ -27,6 +26,6 @@ export const getMyTimes = sweet({
 
     if (!timeDocument) return [];
 
-    return timeDocument.times.map(toView);
+    return timeDocument.times;
   },
 });

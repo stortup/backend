@@ -2,9 +2,8 @@ import { ObjectId } from "bson";
 import { client } from "../../mongo.js";
 
 export interface Time {
-  _id: ObjectId;
-  start_date: number; // timestamp is seconds
-  end_date: number; // timestamp is seconds
+  date: Date; // timestamp is seconds
+  duration: number; // in minutes
   reserved: boolean;
   meet_id?: ObjectId;
 }
@@ -14,10 +13,10 @@ export interface MentorTimesCollection {
   times: Time[];
 }
 
-export const timesCollection = client.db("mentor-times").collection<
+export const timesCollection = client.db().collection<
   MentorTimesCollection
 >(
-  "meets",
+  "times",
 );
 
 // export class MentorTimes {

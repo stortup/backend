@@ -30,7 +30,13 @@ export const getMentor = sweet({
         },
         {
           $project: {
-            lookup_result: 0,
+            id: 1,
+            name: 1,
+            resume: 1,
+            avatar_url: 1,
+            bio: 1,
+            times: 1,
+            hourly_cost: 1,
           },
         },
       ])
