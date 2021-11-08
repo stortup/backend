@@ -20,12 +20,18 @@ export interface Mentor extends UserBase {
   resume: string;
   bio: string;
   avatar_url: string | null;
-  bank_card: string | null;
+  bank_no: string | null;
   hourly_cost: number;
   categories: string[];
 }
 
-export const usersCollection = client.db("stortup").collection<User | Mentor>(
+export interface Admin extends UserBase {
+  is_admin: true;
+}
+
+export const usersCollection = client.db("stortup").collection<
+  User | Mentor | Admin
+>(
   "users",
 );
 

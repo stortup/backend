@@ -8,7 +8,7 @@ interface Params {
   resume?: string;
   bio?: string;
   hourly_cost?: string;
-  band_card?: string;
+  bank_no?: string;
   categories?: string[];
 }
 
@@ -21,7 +21,7 @@ export const editProfile = sweet({
     phone: "email|optional",
     resume: "string|optional",
     hourly_cost: "number|optional",
-    band_card: "string|optional",
+    bank_no: "string|optional",
     categories: "string[]|optional",
   },
   async handler(params: Params, { user_id }) {
@@ -31,7 +31,7 @@ export const editProfile = sweet({
       delete params.resume;
       delete params.bio;
       delete params.hourly_cost;
-      delete params.band_card;
+      delete params.bank_no;
     }
 
     await usersCollection.updateOne(

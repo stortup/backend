@@ -15,3 +15,8 @@ export const UNAUTHORIZED = createError(
   "UNAUTHORIZED",
   401,
 );
+export const FORBIDDEN = createError(
+  "FORBIDDEN",
+  "FORBIDDEN",
+  403,
+);
