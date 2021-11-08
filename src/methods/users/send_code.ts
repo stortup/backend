@@ -29,8 +29,9 @@ export const sendCode = sweet({
     //   }
     // }
 
-    const code = generateOtpCode();
-    console.log(code);
+    // const code = generateOtpCode(); TODO
+    const code = "12345";
+
     const expire_at = new Date(Date.now() + TWO_MINUTES);
 
     await otpCollection.replaceOne(
