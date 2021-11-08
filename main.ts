@@ -19,4 +19,5 @@ app.get("/", (req, rep) => {
 
 app.route;
 
-app.listen(4004);
+app.listen(4004, "0.0.0.0");
+console.log("server running on port 4004");

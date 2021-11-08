@@ -13,7 +13,7 @@ export interface MentorTimesCollection {
   times: Time[];
 }
 
-export const timesCollection = client.db().collection<
+export const timesCollection = client.db("stortup").collection<
   MentorTimesCollection
 >(
   "times",
