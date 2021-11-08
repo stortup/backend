@@ -9,6 +9,7 @@ interface Params {
   bio?: string;
   hourly_cost?: string;
   band_card?: string;
+  categories?: string[];
 }
 
 export const editProfile = sweet({
@@ -21,6 +22,7 @@ export const editProfile = sweet({
     resume: "string|optional",
     hourly_cost: "number|optional",
     band_card: "string|optional",
+    categories: "string[]|optional",
   },
   async handler(params: Params, { user_id }) {
     const user = await usersCollection.findOne({ _id: user_id });

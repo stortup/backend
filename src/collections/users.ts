@@ -22,6 +22,7 @@ export interface Mentor extends UserBase {
   avatar_url: string | null;
   bank_card: string | null;
   hourly_cost: number;
+  categories: string[];
 }
 
 export const usersCollection = client.db("stortup").collection<User | Mentor>(
@@ -33,5 +34,5 @@ await usersCollection.createIndexes([
   { key: { email: 1 }, unique: true, sparse: true },
   { key: { is_user: 1 } },
   { key: { is_mentor: 1 } },
-  { key: { is_available: 1 }, sparse: true },
+  { key: { categories: 1 }, sparse: true },
 ]);
