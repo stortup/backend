@@ -50,6 +50,6 @@ export const sendCode = sweet({
 //   return date.getTime() < Date.now();
 // }
 
-function generateOtpCode() {
-  return (Math.floor(Math.random() * 90000) + 10000).toString();
-}
+// function generateOtpCode() {
+//   return (Math.floor(Math.random() * 90000) + 10000).toString();
+// }

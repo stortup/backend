@@ -49,10 +49,14 @@ export const getMentor = sweet({
 
 function mentorToView(d: any) {
   const view = toView(d) as any;
-  view.times = view.times.map((time: any) => {
-    const d = toView(time) as any;
-    return d;
-  });
+  if (view.times) {
+    view.times = view.times.map((time: any) => {
+      const d = toView(time) as any;
+      return d;
+    });
+  } else {
+    view.times = [];
+  }
 
   return view;
 }

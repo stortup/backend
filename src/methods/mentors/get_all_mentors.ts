@@ -5,6 +5,7 @@ import { usersCollection } from "../../collections/users.js";
 
 interface Params {
   category?: string;
+  search?: string;
 }
 
 export interface ResultMentor {
@@ -28,12 +29,21 @@ export const getAllMentors = sweet({
   url: "/get_all_mentors",
   params: {
     category: "string|optional",
+    search: "string|optional",
   },
   async handler(params: Params): Promise<ResultMentor[]> {
     const page = 0;
     const result = await usersCollection
       .aggregate([
-        { $match: { is_mentor: true, categories: params.category } },
+        {
+          $match: {
+            is_mentor: true,
+            categories: params.category,
+            name: params.search && {
+              $regex: params.search,
+            },
+          },
+        },
         {
           $lookup: {
             from: "times",
@@ -71,10 +81,14 @@ export const getAllMentors = sweet({
 
 function mentorToView(d: any) {
   const view = toView(d) as any;
-  view.times = view.times.map((time: any) => {
-    const d = toView(time) as any;
-    return d;
-  });
+  if (view.times) {
+    view.times = view.times.map((time: any) => {
+      const d = toView(time) as any;
+      return d;
+    });
+  } else {
+    view.times = [];
+  }
 
   return view;
 }

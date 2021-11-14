@@ -9,6 +9,7 @@ interface MentoringRequestDocument {
     bio: string;
     bank_no: string;
     hourly_cost: number;
+    file_id: string;
     categories: string[];
   };
 }

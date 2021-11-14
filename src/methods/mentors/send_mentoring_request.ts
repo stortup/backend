@@ -10,6 +10,7 @@ interface Params {
   bio: string;
   bank_no: string;
   hourly_cost: number;
+  file_id: string;
   categories: string[];
 }
 
@@ -19,15 +20,16 @@ const ALREADY_MENTOR = createError(
   400,
 );
 
-export const applyMentoringAccess = sweet({
+export const sendMentoringRequest = sweet({
   method: "POST",
-  url: "/apply_mentoring_access",
+  url: "/send_mentoring_request",
   auth: usersAuth,
   params: {
     resume: "string",
     bio: "string",
     bank_no: "string",
     hourly_cost: "number",
+    file_id: "string",
     categories: "string[]",
   },
   async handler(params: Params, { user_id }) {

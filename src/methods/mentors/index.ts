@@ -1,5 +1,5 @@
 import { FastifyPluginCallback } from "fastify";
-import { applyMentoringAccess } from "./apply_mentoring_access.js";
+import { sendMentoringRequest } from "./send_mentoring_request.js";
 import { getAllMentors } from "./get_all_mentors.js";
 import { getMentor } from "./get_mentor.js";
 import { getMentoringRequests } from "./get_mentoring_requests.js";
@@ -18,7 +18,7 @@ export const mentorsPlugin: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.route(getMyMeets);
   fastify.route(reserveMentor);
 
-  fastify.route(applyMentoringAccess);
+  fastify.route(sendMentoringRequest);
   fastify.route(getMentoringRequests);
   fastify.route(grantMentoringAccess);
   fastify.route(rejectMentoringAccess);
