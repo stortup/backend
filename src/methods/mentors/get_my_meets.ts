@@ -12,7 +12,7 @@ type Result = {
     id: ObjectId;
     name: string;
     bio: string | null;
-    email: string | null;
+    email?: string;
     avatar_url: string | null;
   };
 }[];

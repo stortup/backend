@@ -4,10 +4,10 @@ import { client } from "../../mongo.js";
 interface UserBase {
   _id: ObjectId;
   phone?: string;
+  email?: string;
   is_mentor: boolean;
   is_admin: boolean;
   name: string | null;
-  email: string | null;
   email_verified: boolean;
 }
 

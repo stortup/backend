@@ -5,6 +5,7 @@ import { usersCollection } from "../../collections/users.js";
 interface Params {
   name?: string;
   phone?: string;
+  email?: string;
   resume?: string;
   bio?: string;
   hourly_cost?: string;
@@ -18,7 +19,8 @@ export const editProfile = sweet({
   auth: usersAuth,
   params: {
     name: "string|optional",
-    phone: "email|optional",
+    phone: "string|optional",
+    email: "string|optional", // TODO
     resume: "string|optional",
     hourly_cost: "number|optional",
     bank_no: "string|optional",
