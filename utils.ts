@@ -5,14 +5,14 @@ type Document = {
 };
 
 export type View<T extends Document> =
-  | { id: T["_id"] }
-  | {
-    [P in keyof Omit<T, "_id">]?: T[P];
+  & { id: T["_id"] }
+  & {
+    [P in keyof Omit<T, "_id">]: T[P];
   };
 
 // document to view
 export function toView<T extends Document>(
-  { _id, ...rest }: Document,
+  { _id, ...rest }: T,
 ): View<T> {
   return {
     id: _id,

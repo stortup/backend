@@ -1,14 +1,16 @@
 import { ObjectId } from "bson";
 import { sweet } from "sweet-fastify";
 import { toView } from "../../../utils.js";
+import { Time } from "../../collections/times.js";
 import { usersCollection } from "../../collections/users.js";
+import { filterAndSortTimes } from "../../utils/mentors.js";
 
 interface Params {
   category?: string;
   search?: string;
 }
 
-export interface ResultMentor {
+interface ResultMentor {
   id: ObjectId;
   name: string;
   resume: string;
@@ -18,10 +20,20 @@ export interface ResultMentor {
   hourly_cost: number;
 }
 
-export interface ResultTime {
-  id: ObjectId;
-  start_date: string;
+interface ResultTime {
+  date: Date;
+  duration: number;
   reserved: boolean;
+}
+
+interface AggregateResult {
+  _id: ObjectId;
+  name: string;
+  resume: string;
+  avatar_url: string;
+  bio: string;
+  times: Time[];
+  hourly_cost: number;
 }
 
 export const getAllMentors = sweet({
@@ -60,6 +72,13 @@ export const getAllMentors = sweet({
           },
         },
         {
+          $match: {
+            times: {
+              $ne: null,
+            },
+          },
+        },
+        {
           $project: {
             id: 1,
             name: 1,
@@ -73,22 +92,16 @@ export const getAllMentors = sweet({
       ])
       .limit(20)
       .skip(page * 20)
-      .toArray() as any[];
+      .toArray() as AggregateResult[];
 
     return result.map(mentorToView);
   },
 });
 
-function mentorToView(d: any) {
-  const view = toView(d) as any;
-  if (view.times) {
-    view.times = view.times.map((time: any) => {
-      const d = toView(time) as any;
-      return d;
-    });
-  } else {
-    view.times = [];
-  }
+function mentorToView(d: AggregateResult) {
+  d.times = filterAndSortTimes(d.times);
+
+  const view = toView(d);
 
   return view;
 }

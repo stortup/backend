@@ -15,7 +15,6 @@ export const filesPlugin: FastifyPluginCallback = (fastify, opts, done) => {
     url: "/upload",
     handler: async (request, reply) => {
       const data = await request.file();
-      console.log(data);
 
       const id = new ObjectId();
       await pump(

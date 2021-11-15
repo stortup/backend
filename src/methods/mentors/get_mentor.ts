@@ -2,6 +2,7 @@ import { ObjectId } from "bson";
 import { sweet } from "sweet-fastify";
 import { toView } from "../../../utils.js";
 import { usersCollection } from "../../collections/users.js";
+import { filterAndSortTimes } from "../../utils/mentors.js";
 
 export const getMentor = sweet({
   method: "GET",
@@ -10,7 +11,7 @@ export const getMentor = sweet({
     mentor_id: { type: "string" },
   },
   async handler({ mentor_id }) {
-    const result: any = await usersCollection
+    const results: any = await usersCollection
       .aggregate([
         { $match: { _id: new ObjectId(mentor_id), is_mentor: true } },
         {
@@ -42,21 +43,11 @@ export const getMentor = sweet({
       ])
       .toArray();
 
-    if (!result[0]) return null;
-    return mentorToView(result[0]);
+    const result = results[0];
+    if (!result) return null;
+
+    result.times = filterAndSortTimes(result.times ?? []);
+
+    return toView(result);
   },
 });
-
-function mentorToView(d: any) {
-  const view = toView(d) as any;
-  if (view.times) {
-    view.times = view.times.map((time: any) => {
-      const d = toView(time) as any;
-      return d;
-    });
-  } else {
-    view.times = [];
-  }
-
-  return view;
-}

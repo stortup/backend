@@ -1,7 +1,12 @@
 import { sweet } from "sweet-fastify";
 import createError from "fastify-error";
 import { otpCollection } from "../../collections/otp.js";
-import { User, usersCollection } from "../../collections/users.js";
+import {
+  Admin,
+  Mentor,
+  User,
+  usersCollection,
+} from "../../collections/users.js";
 import { TokenDocument, tokensCollection } from "../../collections/tokens.js";
 import { ObjectId } from "mongodb";
 import { toView, View } from "../../../utils.js";
@@ -12,7 +17,7 @@ interface Params {
 }
 
 interface Response {
-  user: View<User>;
+  user: View<User | Mentor | Admin>;
   access_token: string;
 }
 
