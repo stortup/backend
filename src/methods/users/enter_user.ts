@@ -65,6 +65,7 @@ export const enterUser = sweet({
       phone: params.phone,
       is_mentor: false,
       is_admin: false,
+      is_publisher: false,
       name: null,
       email_verified: false,
     };

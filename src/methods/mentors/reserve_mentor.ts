@@ -22,15 +22,23 @@ export const reserveMentor = sweet({
   async handler(params: Params, { user_id }) {
     const mentorId = new ObjectId(params.mentor_id);
 
-    const { value } = await timesCollection.findOneAndUpdate(
-      { _id: mentorId, "times.date": params.date, "times.reserved": false },
-      { $set: { "times.$.reserved": true } },
+    const value = await timesCollection.findOne(
+      { _id: mentorId },
     );
 
-    if (!value) throw new Error("Time not found");
+    if (!value) throw new Error("Time document not found");
 
     const time = value.times.find((time) =>
       time.date.getTime() === params.date.getTime()
+    );
+
+    if (!time) throw new Error("Time not found 1");
+    if (time.reserved) throw new Error("Time not available");
+    time.reserved = true;
+
+    await timesCollection.updateOne(
+      { _id: mentorId },
+      { $set: { times: value.times } },
     );
 
     await meetsCollection.insertOne({
@@ -38,8 +46,8 @@ export const reserveMentor = sweet({
       mentor_id: mentorId,
       user_id,
       price_paid: params.price_paid,
-      date: time!.date,
-      duration: time!.duration,
+      date: time.date,
+      duration: time.duration,
     });
   },
 });

@@ -3,6 +3,7 @@ import { sweet } from "sweet-fastify";
 import { usersAuth } from "../../authentications/users.js";
 import { Time, timesCollection } from "../../collections/times.js";
 import { usersCollection } from "../../collections/users.js";
+import { addTime } from "../../utils/times.js";
 
 const UNAUTHORIZED = createError("FORBIDDEN", "user is not mentor", 403);
 
@@ -46,14 +47,14 @@ export const setMyTimes = sweet({
     });
 
     const currentTimes: Time[] = timeDocument?.times ?? [];
-    const newTimes: Time[] = [];
+    const newTimes: Time[] = []; // sorted by date
 
     for (const currentTime of currentTimes) {
-      if (currentTime.reserved) newTimes.push(currentTime);
+      if (currentTime.reserved) addTime(newTimes, currentTime);
     }
 
     for (const time of params.times) {
-      newTimes.push({
+      addTime(newTimes, {
         date: time.date,
         duration: time.duration,
         reserved: false,
