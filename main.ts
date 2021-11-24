@@ -6,6 +6,7 @@ import { usersPlugin } from "./src/methods/users/index.js";
 import { mentorsPlugin } from "./src/methods/mentors/index.js";
 import { coursesPlugin } from "./src/methods/courses/index.js";
 import { filesPlugin } from "./src/methods/files/files.js";
+import { vodPlugin } from "./src/methods/vod/vod.js";
 
 const app = fastify();
 
@@ -21,6 +22,7 @@ app.register(usersPlugin, { prefix: "/users" });
 app.register(mentorsPlugin, { prefix: "/mentors" });
 app.register(coursesPlugin, { prefix: "/courses" });
 app.register(filesPlugin, { prefix: "/files" });
+app.register(vodPlugin, { prefix: "/vod" });
 
 app.get("/", (req, rep) => {
   rep.send("hi");
